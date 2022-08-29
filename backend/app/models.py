@@ -6,7 +6,7 @@ from pydantic import BaseModel
 class User(BaseModel):
     id: Optional[UUID] = uuid4()
     email: str
-    timestamp: Optional[datetime] = None
+    timestamp: Optional[datetime] = datetime.now()
 
 class Book(BaseModel):
     id: Optional[UUID] = uuid4()
