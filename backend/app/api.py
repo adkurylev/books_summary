@@ -1,7 +1,7 @@
 from typing import List
 from uuid import UUID
 from fastapi import FastAPI
-from backend.app.models import Book, Like, User
+from app.models import Book, Like, User
 
 app = FastAPI()
 
