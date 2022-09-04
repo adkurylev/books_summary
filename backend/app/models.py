@@ -1,20 +1,25 @@
-from datetime import datetime
-from typing import List, Optional
-from uuid import UUID, uuid4
-from pydantic import BaseModel
+from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, DateTime
+from sqlalchemy.orm import relationship
 
-class User(BaseModel):
-    id: Optional[UUID] = uuid4()
-    email: str
-    timestamp: Optional[datetime] = datetime.now()
+from .database import Base
 
-class Book(BaseModel):
-    id: Optional[UUID] = uuid4()
-    title: str
-    content: str
-    summary: Optional[str]
+class User(Base):
+    __tablename__ = "users"
 
-class Like(BaseModel):
-    id: Optional[UUID] = uuid4()
-    user_id: UUID
-    book_id: UUID
+    id = Column(Integer, primary_key=True, index=True)
+    email = Column(String, unique=True, index=True)
+    timestamp = Column(DateTime)
+
+class Book(Base):
+    __tablename__ = "books"
+
+    id = Column(Integer, primary_key=True, index=True)
+    title = Column(String, index=True)
+    content = Column(String)
+    summary = Column(String)
+
+class Like(Base):
+    __tablename__ = "likes"
+
+    user_id = Column(Integer, ForeignKey("users.id"))
+    book_id = Column(Integer, ForeignKey("books.id"))
