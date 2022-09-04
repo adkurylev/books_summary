@@ -3,6 +3,7 @@ from uuid import UUID
 from fastapi import FastAPI, HTTPException
 from app.schemas import Book, Like, User
 from app.database import *
+from app.summarization import summarize
 
 app = FastAPI()
 
@@ -38,9 +39,22 @@ async def register_user(user: User) -> UUID:
 async def fetch_books() -> List[Book]:
     return books
 
+@app.post("/api/v1/books")
+async def add_book(book: Book) -> UUID:
+    books.append(book)
+    return {"id": book.id}
+
 @app.put("/api/v1/books/{book_id}")
 async def make_summary(book_id: UUID):
-    pass
+    for book in books:
+        if book.id == book_id:
+            break
+
+    summary = summarize(book.content)
+    book.summary = summary
+
+    return {"summary": summary}
+
 
 # LIKES
 

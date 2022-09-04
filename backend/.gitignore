@@ -19,7 +19,9 @@ docs_build
 venv
 docs.zip
 archive.zip
+my_token.py
 
 # vim temporary files
 *~
 .*.sw?
+
