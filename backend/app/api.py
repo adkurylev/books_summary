@@ -36,7 +36,7 @@ async def register_user(user: User) -> UUID:
 
 @app.get("/api/v1/books")
 async def fetch_books() -> List[Book]:
-    pass
+    return books
 
 @app.put("/api/v1/books/{book_id}")
 async def make_summary(book_id: UUID):
