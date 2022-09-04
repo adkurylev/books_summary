@@ -46,12 +46,20 @@ async def make_summary(book_id: UUID):
 
 @app.post("/api/v1/likes")
 async def add_like(like: Like) -> UUID:
-    pass
+    likes.append(like)
+    return {"id": like.id}
 
 @app.delete("/api/v1/likes")
 async def remove_like(like: Like):
-    pass
+    for l in likes:
+        if l.book_id == like.book_id and l.user_id == like.user_id:
+            likes.remove(l)
+
+    raise HTTPException(
+        status_code=404,
+        detail="Like not found"
+    )
 
 @app.get("/api/v1/likes/{user_id}")
 async def get_likes_by_user(user_id: UUID) -> List[Like]:
-    pass
+    return list(filter(lambda like: like.user_id == user_id, likes))
